@@ -11,7 +11,7 @@ const Header = () => {
         <Logo/>
         <HeaderSearch/>
         <Auth/>
-      </div>
+      </div> 
     </div>
   )
 }

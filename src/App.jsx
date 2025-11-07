@@ -6,6 +6,8 @@ import Category from './pages/category/Category';
 import AllCategory from './pages/category/AllCategory';
 import SinglePost from './pages/singlePost/SinglePost';
 import { Route, Routes } from 'react-router';
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './dashboard/Dashboard';
 
 function App() {
 
@@ -20,6 +22,12 @@ function App() {
         <Route path="/:post" element={<SinglePost/>}/>
         <Route path="about" element={<About/>}/>
         <Route path="contact" element={<Contact/>}/>
+        <Route path="dashboard" element={
+            <ProtectedRoute>
+              <Dashboard/>
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Routes>
   )

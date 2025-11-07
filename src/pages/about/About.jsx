@@ -4,21 +4,30 @@ const About = () => {
   const [post, setPost] = useState([]);
   const postData = "https://jsonplaceholder.typicode.com/posts";
 
+  const getData = async()=>{
+    const data = await fetch(postData);
+    const allPosts = await data.json();
+    setPost(allPosts);
+  }
+
   useEffect(()=>{
-    fetch(postData)
-      .then((response)=>{
-        if(!response.ok){
-          console.log("womething wrong");
-        }
-        return response.json();
-      })
-      .then((data)=>{
-        setPost(data);
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+   getData();
+    // fetch(postData)
+    //   .then((response)=>{
+    //     if(!response.ok){
+    //       console.log("womething wrong");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data)=>{
+    //     setPost(data);
+    //   })
+    //   .catch((err)=>{
+    //     console.log(err);
+    //   })
   },[])
+
+  console.log(post);
 
   return (
     <div className="w-full flex flex-1 h-full">
