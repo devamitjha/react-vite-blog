@@ -8,6 +8,7 @@ import SinglePost from './pages/singlePost/SinglePost';
 import { Route, Routes } from 'react-router';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './dashboard/Dashboard';
+import Author from './pages/author/Author';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
         <Route path="category" element={<AllCategory/>}/>
         <Route path="category/:catname" element={<Category/>}/>
         <Route path="tags/:tagname" element={<Category/>}/>
-        <Route path="author/:name" element={<Category/>}/>
+        <Route path="author/:name" element={<Author/>}/>
         <Route path="/:post" element={<SinglePost/>}/>
         <Route path="about" element={<About/>}/>
         <Route path="contact" element={<Contact/>}/>
