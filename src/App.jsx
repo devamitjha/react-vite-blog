@@ -9,9 +9,16 @@ import { Route, Routes } from 'react-router';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './dashboard/Dashboard';
 import Author from './pages/author/Author';
+import DashboardLayout from './dashboard/DashboardLayout';
+import CreatePost from './dashboard/CreatePost';
+import AllPosts from './dashboard/AllPosts';
+import EditPost from './dashboard/EditPost';
+import AdminCategories from './dashboard/AdminCategories';
+import AdminTags from './dashboard/AdminTags';
+import AdminAuthors from './dashboard/AdminAuthors';
+import Comments from './dashboard/Comments';
 
 function App() {
-
   return (
     <Routes>
       <Route path="/" element={<Layout/>}>
@@ -22,13 +29,22 @@ function App() {
         <Route path="author/:name" element={<Author/>}/>
         <Route path="/:post" element={<SinglePost/>}/>
         <Route path="about" element={<About/>}/>
-        <Route path="contact" element={<Contact/>}/>
-        <Route path="dashboard" element={
-            <ProtectedRoute>
-              <Dashboard/>
-            </ProtectedRoute>
-          }
-        />
+        <Route path="contact" element={<Contact/>}/>        
+      </Route>
+      <Route path="admin" element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="create-post" element={<CreatePost />} />
+        <Route path="posts" element={<AllPosts />} />
+        <Route path="edit-post/:id" element={<EditPost />} />
+        <Route path="categories" element={<AdminCategories />} />
+        <Route path="tags" element={<AdminTags />} />
+        <Route path="authors" element={<AdminAuthors />} />
+        <Route path="comments" element={<Comments />} />
       </Route>
     </Routes>
   )

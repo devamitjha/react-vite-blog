@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate  } from 'react-router'
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Heart, MessageSquareText, Bookmark, Facebook, Twitter, Linkedin, Undo2, Ghost  } from 'lucide-react';
@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 const SinglePost = () => {
   const [openReply, setOpenReply] = useState(false);
+  let navigate = useNavigate();
 
   const replyComment = ()=>{
     setOpenReply(!openReply);
@@ -27,7 +28,7 @@ const SinglePost = () => {
     <div className="singlePage">
       <div className="p-6 bg-white border border-gray-300 rounded-md">
         <div className="sectionTitle">
-          <Badge variant="destructive">Category Name</Badge>
+          <Badge variant="destructive" onClick={()=>navigate("/category/categoryname")} className="cursor-pointer">Category Name</Badge>
           <h1 className="text-4xl font-bold my-8">Modern and colorful style of caricatures created by AI</h1>
           <Separator className="mb-6" />
             <div className="flex justify-between gap-4">
@@ -67,10 +68,10 @@ const SinglePost = () => {
         </div>
         <Separator className="my-6" />
         <div className="flex justify-start items-center flex-wrap gap-4">
-          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">Crypto</Link>
-          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">cryptocurrency</Link>
-          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">Bitcoin</Link>
-          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">Block Chain</Link>
+          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">#Crypto</Link>
+          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">#cryptocurrency</Link>
+          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">#Bitcoin</Link>
+          <Link to="/tags/tagname" className="flex items-center rounded-full border bg-white px-3 py-1 text-sm hover:bg-black hover:text-white">#Block Chain</Link>
         </div>
         <Separator className="my-6" />
           <div className="flex justify-between items-center gap-4">
