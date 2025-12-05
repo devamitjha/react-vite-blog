@@ -15,16 +15,34 @@ export const getUsers = (req, res) => {
 
 // POST create user
 export const createUser = (req, res) => {
-    const { full_name, email, password, role, status } = req.body;
-     console.log("create user");
+    const { full_name, email, password, role, status, social_links } = req.body;
 
-    // const sql = `
-    //     INSERT INTO users (full_name, email, password, role, status)
-    //     VALUES (?, ?, ?, ?, ?)
-    // `;
+    let columns = ["full_name", "email", "password"];
+    let values = [full_name, email, password];
 
-    // db.query(sql, [full_name, email, password, role, status], (err, result) => {
-    //     if (err) return res.status(500).json({ error: err });
-    //     res.json({ message: "User created", user_id: result.insertId });
-    // });
+    if (social_links) {
+        columns.push("social_links");
+        values.push(JSON.stringify(social_links));
+    }
+
+    if (role) {
+        columns.push("role");
+        values.push(role);
+    }
+
+    if (status) {
+        columns.push("status");
+        values.push(status);
+    }
+
+    const sql = `
+        INSERT INTO users (${columns.join(",")})
+        VALUES (${columns.map(() => "?").join(",")})
+    `;
+
+    db.query(sql, values, (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ message: "User created", id: result.insertId });
+    });
 };
+
