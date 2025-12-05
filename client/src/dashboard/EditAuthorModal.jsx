@@ -1,15 +1,15 @@
 import { useState } from "react";
 
-const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
-  const [form, setForm] = useState(
-    data || {
-      name: "",
+const EditAuthorModal = ({ data, setShow, authors, setAuthors, addAuthor }) => {  
+ 
+  const [form, setForm] = useState(addAuthor ? {
+      full_name:  "",
       email: "",
       role: "Writer",
       status: "Active",
-      image: "",
-      social: { facebook: "", twitter: "", linkedin: "" },
-    }
+      profile_image: "",
+      social_links: { facebook: "", twitter: "", linkedin: "" },
+    } : data
   );
 
   const handleSubmit = (e) => {
@@ -32,7 +32,7 @@ const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
       <div className="bg-white p-6 rounded-xl w-full max-w-lg shadow-lg">
         <h3 className="text-xl font-bold mb-4">
-          {data ? "Edit Author" : "Add Author"}
+          {data && !addAuthor ? "Edit Author" : "Add Author"}
         </h3>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -41,8 +41,8 @@ const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
           <input
             type="text"
             placeholder="Author Name"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            value={form.full_name}
+            onChange={(e) => setForm({ ...form, full_name: e.target.value })}
             className="p-3 border rounded-lg"
           />
 
@@ -61,11 +61,11 @@ const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
               type="text"
               placeholder="Facebook URL"
               className="p-2 border rounded"
-              value={form.social.facebook}
+              value={form.social_links?.facebook || ""}
               onChange={(e) =>
                 setForm({
                   ...form,
-                  social: { ...form.social, facebook: e.target.value },
+                  social_links: { ...form.social_links, facebook: e.target.value },
                 })
               }
             />
@@ -73,11 +73,11 @@ const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
               type="text"
               placeholder="Twitter URL"
               className="p-2 border rounded"
-              value={form.social.twitter}
+              value={form.social_links?.twitter || ""}
               onChange={(e) =>
                 setForm({
                   ...form,
-                  social: { ...form.social, twitter: e.target.value },
+                  social_links: { ...form.social_links, twitter: e.target.value },
                 })
               }
             />
@@ -85,11 +85,11 @@ const EditAuthorModal = ({ data, setShow, authors, setAuthors }) => {
               type="text"
               placeholder="LinkedIn URL"
               className="p-2 border rounded"
-              value={form.social.linkedin}
+              value={form.social_links?.linkedin || ""}
               onChange={(e) =>
                 setForm({
                   ...form,
-                  social: { ...form.social, linkedin: e.target.value },
+                  sosocial_linkscial: { ...form.social_links, linkedin: e.target.value },
                 })
               }
             />

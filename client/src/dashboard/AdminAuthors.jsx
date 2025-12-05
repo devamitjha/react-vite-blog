@@ -1,26 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUsers } from "@/services/userService";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import EditAuthorModal from "./EditAuthorModal";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+
+export const getInitials = (name) => {
+  if (!name) return "";
+  return name
+    .split(" ")
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+};
 
 const AdminAuthors = () => {
-  const [authors, setAuthors] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@gmail.com",
-      role: "Writer",
-      status: "Active",
-      image: "/images/user1.jpg",
-      social: {
-        facebook: "https://facebook.com/john",
-        twitter: "https://twitter.com/john",
-        linkedin: "https://linkedin.com/in/john",
-      },
-    },
-  ]);
-
+  const [authors, setAuthors] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [addAuthor, setAddAuthor] = useState(false);  
 
   const [editData, setEditData] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -31,13 +32,26 @@ const AdminAuthors = () => {
     setShowDelete(false);
   };
 
+  const getAllUser = async () => {
+    try {
+      const data = await getUsers();
+      setAuthors(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllUser();    
+  }, []);
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Authors</h2>
 
         <button
-          onClick={() => setShowEditModal(true)}
+          onClick={() => {setShowEditModal(true); setAddAuthor(true)}}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
         >
           <Plus size={18} /> Add Author
@@ -58,15 +72,15 @@ const AdminAuthors = () => {
           </thead>
 
           <tbody>
-            {authors.map((author) => (
-              <tr key={author.id} className="border-b">
+            {authors.map((author) => {
+              const initials = getInitials(author.full_name);
+              return( <tr key={author.id} className="border-b">
                 <td className="p-3 flex items-center gap-3">
-                  <img
-                    src={author.image}
-                    alt=""
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  {author.name}
+                  <Avatar className="w-10 h-10" onClick={() => openSheet('login')}>
+                    <AvatarImage src={author.image} alt={author.full_name} />
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>                 
+                  {author.full_name}
                 </td>
 
                 <td className="p-3">{author.email}</td>
@@ -75,7 +89,7 @@ const AdminAuthors = () => {
                 <td className="p-3">
                   <span
                     className={`px-3 py-1 rounded-full text-sm ${
-                      author.status === "Active"
+                      author.status === "active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
@@ -89,6 +103,7 @@ const AdminAuthors = () => {
                     onClick={() => {
                       setEditData(author);
                       setShowEditModal(true);
+                      setAddAuthor(false);
                     }}
                     className="p-2 bg-blue-100 rounded hover:bg-blue-200"
                   >
@@ -106,7 +121,8 @@ const AdminAuthors = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+              )
+            })}
           </tbody>
         </table>
       </div>
@@ -146,6 +162,7 @@ const AdminAuthors = () => {
           setShow={setShowEditModal}
           setAuthors={setAuthors}
           authors={authors}
+          addAuthor={addAuthor}
         />
       )}
     </div>
