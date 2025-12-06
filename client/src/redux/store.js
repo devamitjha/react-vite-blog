@@ -16,7 +16,7 @@ import dialogReducer from "./slices/dialogSlice";
 
 // 🧩 Combine reducers
 const rootReducer = combineReducers({
-  user: userReducer,
+  userDetails: userReducer,
   dialog: dialogReducer,
 });
 
@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"], // ✅ Only persist user slice
+  whitelist: ["userDetails"], // ✅ Only persist user slice
 };
 
 // 💾 Persisted reducer

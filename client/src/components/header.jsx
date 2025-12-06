@@ -15,8 +15,8 @@ import { Badge } from './ui/badge';
 
 const Header = () => {
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state)=> state.user.isLoggedIn);
-  const userDetails = useSelector((state)=> state.user.userDetails);
+  const isLoggedIn = useSelector((state)=> state.userDetails.isLoggedIn);
+  const userDetails = useSelector((state)=> state.userDetails.userDetails);
   console.log(userDetails);
   return (
     <div className="w-full bg-white shadow-1 ">
