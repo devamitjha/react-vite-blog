@@ -50,8 +50,8 @@ const Layout = () => {
   return (  
     <div className='w-full bg-gray-50 min-h-screen'>
         <Header/>
-        <div className="container mx-auto flex justify-between items-start gap-8 mt-4 relative">
-          <div className="leftSidebar w-[20%] sticky top-2">
+        <div className="container mx-auto flex justify-between items-start gap-8 mt-4 relative px-4">
+          <div className="leftSidebar w-[20%] sticky top-20">
             <SideBarMenu/>
             <div className="w-full bg-white my-4 rounded-md px-2 pt-2 pb-4">
                 <p className="text-base mb-2">Subscribe for newsletter</p>
@@ -66,7 +66,7 @@ const Layout = () => {
           <div className="flex flex-1 h-full">
             <Outlet/>
           </div>
-          <div className="rightSideBar w-[20%] sticky top-2">
+          <div className="rightSideBar w-[20%] sticky top-20">
             <AboutUs/>
             <Tags/>
           </div>

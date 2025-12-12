@@ -1,53 +1,79 @@
-import Layout from './Layout';
-import Home from './pages/home/Home';
-import About from './pages/about/About';
-import Contact from './pages/contact/Contact';
-import Category from './pages/category/Category';
-import AllCategory from './pages/category/AllCategory';
-import SinglePost from './pages/singlePost/SinglePost';
-import { Route, Routes } from 'react-router';
-import ProtectedRoute from './components/ProtectedRoute';
-import Dashboard from './dashboard/Dashboard';
-import Author from './pages/author/Author';
-import DashboardLayout from './dashboard/DashboardLayout';
-import CreatePost from './dashboard/CreatePost';
-import AllPosts from './dashboard/AllPosts';
-import EditPost from './dashboard/EditPost';
-import AdminCategories from './dashboard/AdminCategories';
-import AdminTags from './dashboard/AdminTags';
-import AdminAuthors from './dashboard/AdminAuthors';
-import Comments from './dashboard/Comments';
+import { lazy, Suspense } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  ScrollRestoration,
+} from "react-router";
+
+const Layout = lazy(() => import("./Layout"));
+const Home = lazy(() => import("./pages/home/Home"));
+const About = lazy(() => import("./pages/about/About"));
+const Contact = lazy(() => import("./pages/contact/Contact"));
+const Category = lazy(() => import("./pages/category/Category"));
+const AllCategory = lazy(() => import("./pages/category/AllCategory"));
+const SinglePost = lazy(() => import("./pages/singlePost/SinglePost"));
+const Author = lazy(() => import("./pages/author/Author"));
+
+// Dashboard
+const DashboardLayout = lazy(() => import("./dashboard/DashboardLayout"));
+const Dashboard = lazy(() => import("./dashboard/Dashboard"));
+const CreatePost = lazy(() => import("./dashboard/CreatePost"));
+const AllPosts = lazy(() => import("./dashboard/AllPosts"));
+const EditPost = lazy(() => import("./dashboard/EditPost"));
+const AdminCategories = lazy(() => import("./dashboard/AdminCategories"));
+const AdminTags = lazy(() => import("./dashboard/AdminTags"));
+const AdminAuthors = lazy(() => import("./dashboard/AdminAuthors"));
+const Comments = lazy(() => import("./dashboard/Comments"));
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Layout/>}>
-        <Route index element={<Home/>}/>
-        <Route path="category" element={<AllCategory/>}/>
-        <Route path="category/:catname" element={<Category/>}/>
-        <Route path="tags/:tagname" element={<Category/>}/>
-        <Route path="author/:name" element={<Author/>}/>
-        <Route path="/:post" element={<SinglePost/>}/>
-        <Route path="about" element={<About/>}/>
-        <Route path="contact" element={<Contact/>}/>        
-      </Route>
-      <Route path="admin" element={
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          <ScrollRestoration />
+          <Layout />
+        </Suspense>
+      ),
+      children: [
+        { index: true, element: <Home /> },
+        { path: 'category', element: <AllCategory /> },
+        { path: 'category/:catname', element: <Category /> },
+        { path: 'tags/:tagname', element: <Category /> },
+        { path: 'author/:name', element: <Author /> },
+        { path: ':post', element: <SinglePost /> },
+        { path: 'about', element: <About /> },
+        { path: 'contact', element: <Contact /> },
+      ],
+    },
+
+    // Admin Routes (Lazy Loaded)
+    {
+      path: '/admin',
+      element: (
+        <Suspense fallback={<div>Loading Dashboard...</div>}>
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="create-post" element={<CreatePost />} />
-        <Route path="posts" element={<AllPosts />} />
-        <Route path="edit-post/:id" element={<EditPost />} />
-        <Route path="categories" element={<AdminCategories />} />
-        <Route path="tags" element={<AdminTags />} />
-        <Route path="authors" element={<AdminAuthors />} />
-        <Route path="comments" element={<Comments />} />
-      </Route>
-    </Routes>
-  )
+        </Suspense>
+      ),
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: 'create-post', element: <CreatePost /> },
+        { path: 'posts', element: <AllPosts /> },
+        { path: 'edit-post/:id', element: <EditPost /> },
+        { path: 'categories', element: <AdminCategories /> },
+        { path: 'tags', element: <AdminTags /> },
+        { path: 'authors', element: <AdminAuthors /> },
+        { path: 'comments', element: <Comments /> },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

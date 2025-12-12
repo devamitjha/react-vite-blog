@@ -19,8 +19,8 @@ const Header = () => {
   const userDetails = useSelector((state)=> state.userDetails.userDetails);
   console.log(userDetails);
   return (
-    <div className="w-full bg-white shadow-1 ">
-      <div className="container h-15 flex justify-between items-center mx-auto gap-10">
+    <div className="w-full bg-white shadow sticky top-0 z-10">
+      <div className="container h-15 flex justify-between items-center mx-auto gap-10 px-4">
         <Logo/>
         <HeaderSearch/>
         {

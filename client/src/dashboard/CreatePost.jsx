@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import QuillEditor from "@/components/quillEditor";
 import { ImagePlus, Tags } from "lucide-react";
+import { uploadToImageKit } from "@/services/imagekitService";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -39,11 +40,13 @@ const CreatePost = () => {
   // -----------------------------------------
   // 🔥 Thumbnail Preview
   // -----------------------------------------
-  const handleThumbnail = (e) => {
-    const file = e.target.files[0];
-    setThumbnail(file);
+  const handleThumbnail = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
 
-    if (file) setPreview(URL.createObjectURL(file));
+      const url = await uploadToImageKit(file);
+      setThumbnail(file);
+      setPreview(url);
   };
 
   // -----------------------------------------
@@ -77,31 +80,20 @@ const CreatePost = () => {
   // -----------------------------------------
   // 🔥 Cloudinary Image Upload in Editor
   // -----------------------------------------
-  const handleImageUpload = () => {
+  const handleImageUpload = async () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
     input.click();
 
     input.onchange = async () => {
-      const file = input.files[0];
-      if (!file) return;
+        const file = input.files[0];
+        if (!file) return;
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "YOUR_UPLOAD_PRESET");
-
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
-        { method: "POST", body: formData }
-      );
-
-      const data = await res.json();
-      const url = data.secure_url;
-
-      const editor = quillRef.current.getEditor();
-      const range = editor.getSelection();
-      editor.insertEmbed(range.index, "image", url);
+        const url = await uploadToImageKit(file);
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection();
+        editor.insertEmbed(range.index, "image", url);
     };
   };
 
