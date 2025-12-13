@@ -3,6 +3,7 @@ import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
 import categoryRoutes from "./routes/category.routes.js"
 import imagekitRoutes from "./routes/imagekit.route.js";
+import allPostRoutes from "./routes/post.routes.js"
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use(cors({
 app.use("/api/users", userRoutes);
 app.use("/api/imagekit", imagekitRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/post", allPostRoutes);
 
 export default app;

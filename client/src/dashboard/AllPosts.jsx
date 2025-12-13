@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { use, useState, useEffect } from "react";
 import ConfirmDelete from "@/components/ConfirmDelete";
 import { FileText, Edit, Trash2, PlusCircle } from "lucide-react";
+import { getAllPosts } from "@/services/postService";
 
 const AllPosts = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [posts, setPosts] = useState([]);
 
-  const posts = [
-    { id: 1, title: "How to Learn React", category: "Technology", status: "Published", date: "2025-01-12" },
-    { id: 2, title: "Best Gadgets 2025", category: "Lifestyle", status: "Draft", date: "2025-01-10" },
-  ];
+  const getAllPostData = async ()=>{       
+      try {
+        const data = await getAllPosts();
+        setPosts(data);
+      } catch (err) {
+        console.log( err.response?.data || err);
+      }
+  }
+ useEffect(() => {
+   getAllPostData()
+  }, []);
 
   const handleDeleteClick = (post) => {
     setSelectedPost(post);
@@ -68,7 +77,7 @@ const AllPosts = () => {
             {posts.map((post) => (
               <tr key={post.id} className="border-b hover:bg-gray-50">
                 <td className="p-3">{post.title}</td>
-                <td className="p-3">{post.category}</td>
+                <td className="p-3">{post.category_name}</td>
 
                 <td className="p-3">
                   <span className={`px-2 py-1 rounded text-xs ${
@@ -80,7 +89,13 @@ const AllPosts = () => {
                   </span>
                 </td>
 
-                <td className="p-3 text-gray-600">{post.date}</td>
+                <td className="p-3 text-gray-600">
+                  {new Date(post.created_at).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
 
                 <td className="p-3 flex justify-end gap-4">
                   <a href={`/admin/edit-post/${post.id}`} className="text-blue-600 hover:text-blue-800">

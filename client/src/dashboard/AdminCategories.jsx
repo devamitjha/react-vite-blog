@@ -1,22 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ImagePlus, Trash2, Pencil } from "lucide-react";
+import { getAllCategories } from "@/services/categoryService";
 
 export default function AdminCategories() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [categories, setCategories] = useState([])
 
-  // List of categories
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Technology",
-      slug: "technology",
-      description: "Latest tech updates",
-      image: "/images/cat1.jpg",
-    },
-  ]);
+  const categoryData = async()=>{
+    try {
+        const data = await getAllCategories();
+        console.log("cat Data", data);
+        setCategories(data);
+      } catch (err) {
+        console.log( err.response?.data || err);
+      }
+  }
+
+  useEffect(() => {
+     categoryData()
+    }, []);
 
   // Delete Popup
   const [deleteId, setDeleteId] = useState(null);

@@ -26,6 +26,7 @@ const AdminAuthors = lazy(() => import("./dashboard/AdminAuthors"));
 const Comments = lazy(() => import("./dashboard/Comments"));
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import WaitingQuote from "./components/WaitingQuote";
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
     {
       path: '/',
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<WaitingQuote/>}>
           <ScrollRestoration />
           <Layout />
         </Suspense>
@@ -54,7 +55,7 @@ function App() {
     {
       path: '/admin',
       element: (
-        <Suspense fallback={<div>Loading Dashboard...</div>}>
+        <Suspense fallback={<WaitingQuote/>}>
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>
