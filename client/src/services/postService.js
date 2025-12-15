@@ -1,8 +1,11 @@
-import axios from "axios";
-
-const API = "http://localhost:5000/api/post/all-posts";
+import api from "./axiosInstance";
 
 export const getAllPosts = async () => {
-  const res = await axios.get(API);
+  const res = await api.get("/post/all-posts");
+  return res.data;
+};
+
+export const getSinglePost = async (slug) => {
+  const res = await api.get(`/post/${slug}`);
   return res.data;
 };

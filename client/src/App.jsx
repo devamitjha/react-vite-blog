@@ -11,7 +11,7 @@ const About = lazy(() => import("./pages/about/About"));
 const Contact = lazy(() => import("./pages/contact/Contact"));
 const Category = lazy(() => import("./pages/category/Category"));
 const AllCategory = lazy(() => import("./pages/category/AllCategory"));
-const SinglePost = lazy(() => import("./pages/singlePost/SinglePost"));
+const PostDetailPage = lazy(() => import("./pages/singlePost/PostDetailPage"));
 const Author = lazy(() => import("./pages/author/Author"));
 
 // Dashboard
@@ -45,7 +45,7 @@ function App() {
         { path: 'category/:catname', element: <Category /> },
         { path: 'tags/:tagname', element: <Category /> },
         { path: 'author/:name', element: <Author /> },
-        { path: ':post', element: <SinglePost /> },
+        { path: ':post', element: <PostDetailPage /> },
         { path: 'about', element: <About /> },
         { path: 'contact', element: <Contact /> },
       ],
