@@ -1,8 +1,11 @@
-import axios from "axios";
-
-const API = "http://localhost:5000/api/category/all-categories";
+import api from "./axiosInstance";
 
 export const getAllCategories = async () => {
-  const res = await axios.get(API);
+  const res = await api.get("/category/all-categories");
+  return res.data;
+};
+
+export const getPostsByCategorySlug = async (slug) => {
+  const res = await api.get(`/category/${slug}`);
   return res.data;
 };

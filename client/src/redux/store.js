@@ -13,11 +13,13 @@ import {
 
 import userReducer from "./slices/userSlice";
 import dialogReducer from "./slices/dialogSlice";
+import postItemReducer from "./slices/postSlice";
 
 // 🧩 Combine reducers
 const rootReducer = combineReducers({
   userDetails: userReducer,
   dialog: dialogReducer,
+  postItem:postItemReducer
 });
 
 // ⚙️ Redux Persist config

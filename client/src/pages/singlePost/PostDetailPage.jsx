@@ -56,7 +56,13 @@ const PostDetailPage = () => {
                 </Link>
                 <div className="flex items-start flex-col justify-start">                
                     <h6 className="text-sm text-gray-500">By <Link to={`/author/${post.user_url}`} className="text-red-600">{post.user_name}</Link></h6>
-                    <div className="text-sm text-gray-500">{post.created_at}</div>
+                    <div className="text-sm text-gray-500">
+                        {new Date(post.created_at).toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                        })}
+                    </div>
                 </div> 
               </div>
               <div className="flex justify-end items-center gap-2">
@@ -91,7 +97,7 @@ const PostDetailPage = () => {
           <div className="flex justify-between items-center gap-4">
             <div className="flex justify-start items-start gap-3 w-full">               
               <Avatar className="w-20 h-20">
-                <AvatarImage src={`https://ik.imagekit.io/devamitjha/react/${post.featured_image}`} alt="@shadcn" />
+                <AvatarImage src={`https://ik.imagekit.io/devamitjha/react/${post.featured_image}`} alt={post.user_name} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>                
               <div className="flex items-start flex-col justify-start space-y-1">                
@@ -116,14 +122,18 @@ const PostDetailPage = () => {
       </div>
       <div className="p-6 bg-white rounded-md mt-6 flex justify-start items-start gap-4">
         <Avatar className="w-8 h-8">
-          <AvatarImage src="/images/author.jpg" alt="@shadcn" />
+          <AvatarImage src={post.featured_image} alt={post.user_name} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar> 
         <div className="border border-gray-300 rounded-md w-full p-6">
           <div className="flex justify-start items-center gap-3">
-              <h6 className="text-sm text-gray-500">By <Link to="/author/name" className="text-red-600">Amit Jha</Link></h6>
+              <h6 className="text-sm text-gray-500">By <Link to={`/author/${post.user_url}`} className="text-red-600">{post.user_name}</Link></h6>
               <span className="text-sm text-gray-500">|</span>
-              <div className="text-sm text-gray-500">October 21, 2023</div>
+              <div className="text-sm text-gray-500">{new Date(post.created_at).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                            })}</div>
           </div>          
           <div className="mt-2 space-y-2 text-base text-gray-600">
             <p>Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.</p>

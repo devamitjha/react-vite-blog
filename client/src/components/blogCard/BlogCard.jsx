@@ -8,7 +8,7 @@ const BlogCard = ({postData}) => {
     <div className="flex flex-col space-y-6">
         {postData.map((item) => (
             <div className="flex justify-between items-center gap-10 p-6 bg-white border border-gray-300 rounded-md" key={item.id}>
-                <Link to="/title" className="w-[40%] rounded-xl shadow-md overflow-hidden">
+                <Link to={`/${item.slug}`} className="w-[40%] rounded-xl shadow-md overflow-hidden">
                     <img src={`https://ik.imagekit.io/devamitjha/react/${item.featured_image}`} alt="blog post" className="w-full h-full object-cover overflow-hidden hover:scale-105 transform transition-all ease-in-out duration-500"/>
                 </Link>
                 <div className="w-[60%] flex flex-col space-y-4">
@@ -38,7 +38,7 @@ const BlogCard = ({postData}) => {
                         <Link to="tags/tags">#blockchain</Link>
                     </div> */}
                     <div className="flex justify-between items-center gap-4">
-                        <Button className="cursor-pointer"><Link to="/title">Read More</Link></Button>
+                        <Button className="cursor-pointer"><Link to={`/${item.slug}`}>Read More</Link></Button>
                         <div className="flex gap-2 justify-end items-center">
                             <span>2 min read</span>
                             <Button variant="ghost" className="cursor-pointer"><Bookmark /></Button>
